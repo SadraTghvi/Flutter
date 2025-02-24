@@ -51,6 +51,13 @@ class MyHomePage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
 
+    IconData icon;
+    if (appState.favorites.contains(pair)) {
+      icon = Icons.favorite;
+    } else {
+      icon = Icons.favorite_border;
+    }
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -64,11 +71,25 @@ class MyHomePage extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () {
-                appState.goNext();
-              },
-              child: Text('Next'),
+            Row(
+              spacing: 16,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    appState.toggleFav();
+                  },
+                  label: Text('Favorite'),
+                  icon: Icon(icon),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    appState.goNext();
+                  },
+                  child: Text('Next'),
+                ),
+              ],
             ),
           ],
         ),
